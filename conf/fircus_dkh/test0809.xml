@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-->
+type - 脚本类型
+path - 脚本位置
+cron - 调度方式
+channel - 并发数
+enable - 是否可用
+<-->
+<configuration>
+    <!--<task type ="py">-->
+        <!--<path>C:/ztesoft/python3/jobSchedule/script/fircus_dkh/Python</path>-->
+        <!--<cron>* * * * *</cron>-->
+        <!--<channel>3</channel>-->
+        <!--<enable>Ture</enable>-->
+    <!--</task>-->
+    <!--<task type ="sh">-->
+        <!--<path>C:/ztesoft/python3/jobSchedule/script/fircus_dkh/Shell</path>-->
+        <!--<cron>* * * * *</cron>-->
+        <!--<channel>3</channel>-->
+        <!--<enable>Ture</enable>-->
+    <!--</task>-->
+    <task type ="sql">
+        <path>C:/ztesoft/python3/jobSchedule/script/fircus_dkh/SQL</path>
+        <cron>* * * * *</cron>
+        <channel>3</channel>
+        <enable>Ture</enable>
+    </task>
+</configuration>

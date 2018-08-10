@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-->
+type - 数据库类型
+host - 服务器IP
+port - 端口
+sid - oracle实例
+server_name - 服务名称
+username - 用户
+password - 密码
+<-->
+<configuration>
+    <db type="oracle">
+        <host>10.45.28.209</host>
+        <port>1521</port>
+        <sid>orcl</sid>
+        <serverName></serverName>
+        <userName>ogg</userName>
+        <passWord>ogg</passWord>
+        <enable>Ture</enable>
+    </db>
+    <!--<db type="mysql">-->
+        <!--<host>127.0.0.1</host>-->
+        <!--<port>3306</port>-->
+        <!--<sid></sid>-->
+        <!--<serverName>test0409</serverName>-->
+        <!--<userName>root</userName>-->
+        <!--<passWord>abc123</passWord>-->
+        <!--<enable>Ture</enable>-->
+    <!--</db>-->
+    <!--<db type="postgresql">-->
+        <!--<host>127.0.0.1</host>-->
+        <!--<port>5432</port>-->
+        <!--<sid></sid>-->
+        <!--<serverName>fcvane</serverName>-->
+        <!--<userName>postgres</userName>-->
+        <!--<passWord>abc123</passWord>-->
+        <!--<enable>Ture</enable>-->
+    <!--</db>-->
+</configuration>

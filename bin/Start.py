@@ -159,3 +159,4 @@ if __name__ == '__main__':
                 logger.error('任务异常退出,请检查调度是否正确.')
                 scheduler.shutdown()
                 print('Exit The Job!')
+

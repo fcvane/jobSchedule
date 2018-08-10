@@ -1,2 +1,2 @@
 # jobSchedule
-# 任务调度通用脚本
+# job scheduling generic script

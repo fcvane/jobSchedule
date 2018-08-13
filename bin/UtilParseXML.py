@@ -56,7 +56,7 @@ def parseCFGInfo(program,taskName):
                 array[child.tag] = child.text
             result[elem.attrib['type']] = array
             # print (array,"-----",result)
-        logger.info('%sparse finished !.' % (PROGRAM_PATH + os.sep + taskName))
+        logger.info('%s parse finished !.' % (PROGRAM_PATH + os.sep + taskName))
     except Exception as e:  # 捕获除与程序退出sys.exit()相关之外的所有异常
         logger.error('parse test.xml fail!')
         print('parse test.xml fail!')

@@ -76,10 +76,10 @@ def execProgram(array):
             logger.info(
                 "[%s] %s exec finished !" % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
     else:
-        # print ('---------------------------',scriptFile)
+        print ('---------------------------',scriptFile)
         conn = getConnect('fircus_dkh')
         cur = conn.cursor()
-        file = open(scriptFile,'r')
+        file = open(scriptFile,'r',encoding="utf8")
         # 控制暂停
         # count = 0
         for line in file.read().split(';'):
@@ -87,6 +87,7 @@ def execProgram(array):
             if line:
                 # print(line)
                 try:
+
                     logger.info('%s exec start ...' % scriptFile)
                     cur.execute(line)
                     conn.commit()
@@ -97,9 +98,13 @@ def execProgram(array):
                 # if count == 10000:
                 #     time.sleep(10)
                 #     count = 0
-                except cx_Oracle.IntegrityError as e:
-                    logger.error ('%s SQL执行异常,原因如下：'%scriptFile)
-                    logging.exception(e)
+                # except cx_Oracle.IntegrityError as e:
+                #     logger.error ('%s SQL执行异常,原因如下：'%scriptFile)
+                #     logger.exception(e)
+                #     sys.exit()
+                except :
+                    logger.error('%s SQL执行异常,原因如下：' % scriptFile)
+                    logger.exception(sys.exc_info())
                     sys.exit()
         cur.close()
         conn.close()

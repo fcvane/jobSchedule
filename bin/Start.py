@@ -84,10 +84,10 @@ def execProgram(array):
         # count = 0
         for line in file.read().split(';'):
             # count += 1
-            if line:
+            if line == '\n':
+                line = line.strip("\n")
                 # print(line)
                 try:
-
                     logger.info('%s exec start ...' % scriptFile)
                     cur.execute(line)
                     conn.commit()
@@ -175,7 +175,7 @@ if __name__ == '__main__':
             #获取时间
             cronDict = getCronList(conf_string=cronStr)
             print(cronDict['week'], cronDict['month'], cronDict['day'], cronDict['hour'], cronDict['minute'])
-            #scheduler.add_job(schedJob, 'cron', day_of_week=cronDict['week'], month=cronDict['month'], day=cronDict['day'], hour=cronDict['hour'], minute=cronDict['minute'])
+            # scheduler.add_job(schedJob, 'cron', day_of_week=cronDict['week'], month=cronDict['month'], day=cronDict['day'], hour=cronDict['hour'], minute=cronDict['minute'])
             scheduler.add_job(schedJob, 'cron',second = '*')
             print('Press Ctrl + C to exit')
             try:

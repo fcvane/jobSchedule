@@ -5,6 +5,7 @@
 # @Param   : 
 # @File    : Start.py
 import os
+import sys
 import datetime
 import logging.handlers
 import time
@@ -20,10 +21,24 @@ LOG_PATH = UtilVariables.LOG_PATH
 currDate = datetime.datetime.now().strftime('%Y-%m-%d')
 logFile = LOG_PATH + os.sep + 'jobSchedule_log_{currDate}.log'.format(currDate=currDate)
 
-logging.basicConfig(filename=logFile,level=logging.DEBUG, format='%(asctime)s - %(levelname) -8s %(filename)s - %(name)s : %(message)s',
+fh=logging.FileHandler(logFile,mode='a')
+fh.setLevel(logging.DEBUG)
+
+ch=logging.StreamHandler()
+ch.setLevel(logging.WARNING)
+
+formatter=logging.Formatter('%(asctime)s - %(levelname) -8s %(filename)s - %(name)s : %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(filename=logFile,level=logging.DEBUG, format=formatter,
                     datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger('jobSchedule_LogDetail')  # 获取logger名称
 logger.setLevel(logging.INFO) #设置日志级别
+
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+# 控制台打印
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 #cli执行
 def execute(cmd, errorMessage):
@@ -61,24 +76,31 @@ def execProgram(array):
             logger.info(
                 "[%s] %s exec finished !" % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
     else:
-        print ('---------------------------',scriptFile)
+        # print ('---------------------------',scriptFile)
         conn = getConnect('fircus_dkh')
         cur = conn.cursor()
         file = open(scriptFile,'r')
         # 控制暂停
         # count = 0
-        for line in file:
+        for line in file.read().split(';'):
             # count += 1
             if line:
-                lines = line[:line.find(';')]
-                #print(lines)
-                cur.execute(lines)
-                result = cur.fetchall()
-                print(result)
+                # print(line)
+                try:
+                    logger.info('%s exec start ...' % scriptFile)
+                    cur.execute(line)
+                    conn.commit()
+                    logger.info('%s exec finish !' % scriptFile)
+                # result = cur.fetchall()
+                # print(result)
                 # print ('计数器当前值',count)
                 # if count == 10000:
                 #     time.sleep(10)
                 #     count = 0
+                except cx_Oracle.IntegrityError as e:
+                    logger.error ('%s SQL执行异常,原因如下：'%scriptFile)
+                    logging.exception(e)
+                    sys.exit()
         cur.close()
         conn.close()
         file.close()

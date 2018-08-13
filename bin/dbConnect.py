@@ -76,7 +76,8 @@ def getConnect(program):
                         connect = psycopg2.connect(database= serverName, user = userName, password = passWord, host = host, port = port)
                         logger.info('connect postgresql sucessful ...')
             except:
-                logger.info('connect to db error!')
+                logger.error('connect to db error!')
+                logger.exception()
             return connect
 #
 # #执行指定目录下的.sql文件

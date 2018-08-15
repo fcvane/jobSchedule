@@ -121,5 +121,5 @@ def preHandle(r_filename):
 
 if __name__ == '__main__':
 
-    result = preHandle('C:/ztesoft/python3/jobSchedule/script/fircus_dkh/SQL/METRIC_GATHER_AREA_3200006.sql')
+    result = preHandle('C:/ztesoft/python3/jobSchedule/script/fircus_dkh/SQL/METRIC_GATHER_AREA_3200002.sql')
     print (result)

@@ -3,7 +3,7 @@
 # @Time    : 2018/8/7 10:31
 # @Author  : Fcvane
 # @Param   : 
-# @File    : dbConnect.py
+# @File    : DbConnect.py
 
 import os,sys
 import datetime

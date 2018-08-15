@@ -12,7 +12,7 @@ import time
 import UtilVariables
 import re
 from UtilParseXML import parseCFGInfo
-from dbConnect import getConnect
+from DbConnect import getConnect
 from apscheduler.schedulers.blocking import BlockingScheduler
 from concurrent.futures import ThreadPoolExecutor
 from UtilPreHandle import preHandle

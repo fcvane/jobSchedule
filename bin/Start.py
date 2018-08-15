@@ -106,32 +106,29 @@ def poolExecProgram(fileDir, fileExt, channel):
     pool = ThreadPoolExecutor(int(channel))
     pool.map(execProgram,parameterList)
 
-def parseCrontab(conf_string):
+#解析crontab时间配置参数
+def getCronList(conf_string):
     '''
-    解析crontab时间配置参数
-    Args:
-        conf_string  配置内容(共五个值：分 时 日 月 周)
-                     取值范围 分钟:0-59 小时:1-23 日期:1-31 月份:1-12 星期:0-6(0表示周日)
-    Return:
-    '''
+        Args:
+            conf_string  配置内容(共五个值：分 时 日 月 周)
+                         取值范围 分钟:0-59 小时:1-23 日期:1-31 月份:1-12 星期:0-6(0表示周日)
+     '''
     clist = []
     conf_length = 5
     tmp_list = conf_string.split(' ')
     for val in tmp_list:
         if val:
             clist.append(val)
+        res = 0
     if len(clist) != conf_length:
-         return -1, logger.error('config error with [%s] , the config is too long or too short , please check and try again !' % conf_string)
-    return 0, clist
+        res = -1
+        logger.error(
+            'config error with [%s] , the config is too long or too short , please check and try again !' % conf_string)
 
-def getCronList(conf_string):
-    # 时间戳
-    time_stamp = int(time.time())
     # 解析crontab时间配置参数 分 时 日 月 周 各个取值范围
-    res, desc = parseCrontab(conf_string)
     if res == 0:
         logger.info('[%s]cron配置正确，可正常执行 ...' % cronStr)
-        cron_time = desc
+        cron_time = clist
     else:
         logger.error('[%s]cron配置信息有误，请检查配置信息' % cronStr)
         exit(1)
@@ -154,9 +151,9 @@ if __name__ == '__main__':
             def schedJob():
                 logger.info('执行任务 ...')
                 #parallelExecProgram(fileDir, fileExt, channel)
+                nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 poolExecProgram(fileDir, fileExt, channel)
                 # 打印当前时间
-                nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 print('nowTime: ' + nowTime)
 
             #获取时间

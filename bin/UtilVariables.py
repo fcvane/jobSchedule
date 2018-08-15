@@ -19,6 +19,9 @@ CONF_PATH = os.path.abspath(BIN_PATH + '/../conf')
 SQL_PATH = os.path.abspath(BIN_PATH + '/../script')
 #日志文件路径
 LOG_PATH = os.path.abspath(BIN_PATH + '/../log')
+# 临时文件目录
+TMP_PATH = os.path.abspath(BIN_PATH + '/../tmp')
+
 
 CUR_PATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(CUR_PATH)

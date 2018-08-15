@@ -21,7 +21,7 @@ LOG_PATH = UtilVariables.LOG_PATH
 currDate = datetime.datetime.now().strftime('%Y-%m-%d')
 logFile = LOG_PATH + os.sep + 'jobSchedule_log_{currDate}.log'.format(currDate=currDate)
 
-fh=logging.FileHandler(logFile,mode='a')
+# fh=logging.FileHandler(logFile,mode='a')
 
 ch=logging.StreamHandler()
 ch.setLevel(logging.WARNING)
@@ -33,10 +33,10 @@ logging.basicConfig(filename=logFile,level=logging.DEBUG, format=formatter,
 logger = logging.getLogger('xmlDB_LogDetail')  # 获取logger名称
 logger.setLevel(logging.INFO) #设置日志级别
 
-fh.setFormatter(formatter)
+# fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 # 控制台打印
-logger.addHandler(fh)
+# logger.addHandler(fh)
 logger.addHandler(ch)
 
 # 获取数据库连接
@@ -62,7 +62,7 @@ def getConnect(program):
                         logger.info('exec connect oracle start ...')
                         connect = cx_Oracle.connect(userName, passWord,
                                                     '{host}:{port}/{sid}'.format(host = host, port = port , sid = sid))
-                        logger.info('connect oracle sucessful ...')
+                        logger.info('connect oracle sucessful !')
                 elif dbType == 'mysql':
                     if serverName is None or sid == '':
                         logger.error('serverName not exists , the %s config is error !' % program)
@@ -70,11 +70,11 @@ def getConnect(program):
                     else:
                         logger.info('exec connect mysql start ...')
                         connect = pymysql.connect(host = host, port = int(port), user = userName, passwd = passWord, db= serverName, charset='utf8')
-                        logger.info('connect mysql sucessful ...')
+                        logger.info('connect mysql sucessful !')
                 elif dbType == 'postgresql':
                         logger.info('exec connect postgresql start ...')
                         connect = psycopg2.connect(database= serverName, user = userName, password = passWord, host = host, port = port)
-                        logger.info('connect postgresql sucessful ...')
+                        logger.info('connect postgresql sucessful !')
             except:
                 logger.error('connect to db error!')
                 logger.exception()
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
     conn = getConnect('fircus_dkh')
     cur = conn.cursor()
-    cur.execute("insert into table_0813tmp select 1+1 from dual")
+    cur.execute("select 1+1 from dual")
     cur.close()
     conn.commit()
     conn.close()

@@ -2,30 +2,31 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/8/2 15:57
 # @Author  : Fcvane
-# @Param   : 
+# @Param   :
 # @File    : Start.py
 import os
 import sys
 import datetime
 import logging.handlers
 import time
-import cx_Oracle
 import UtilVariables
 import re
 from UtilParseXML import parseCFGInfo
 from dbConnect import getConnect
 from apscheduler.schedulers.blocking import BlockingScheduler
 from concurrent.futures import ThreadPoolExecutor
+from UtilPreHandle import preHandle
 
 LOG_PATH = UtilVariables.LOG_PATH
 currDate = datetime.datetime.now().strftime('%Y-%m-%d')
 logFile = LOG_PATH + os.sep + 'jobSchedule_log_{currDate}.log'.format(currDate=currDate)
 
-fh=logging.FileHandler(logFile,mode='a')
-fh.setLevel(logging.DEBUG)
+# fh=logging.FileHandler(logFile,mode='a')
+# fh.setLevel(logging.INFO)
 
 ch=logging.StreamHandler()
-ch.setLevel(logging.WARNING)
+#ch.setLevel(logging.INFO)
+ch.setLevel(logging.ERROR)
 
 formatter=logging.Formatter('%(asctime)s - %(levelname) -8s %(filename)s - %(name)s : %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
@@ -34,10 +35,10 @@ logging.basicConfig(filename=logFile,level=logging.DEBUG, format=formatter,
 logger = logging.getLogger('jobSchedule_LogDetail')  # 获取logger名称
 logger.setLevel(logging.INFO) #设置日志级别
 
-fh.setFormatter(formatter)
+# fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 # 控制台打印
-logger.addHandler(fh)
+# logger.addHandler(fh)
 logger.addHandler(ch)
 
 #cli执行
@@ -79,34 +80,21 @@ def execProgram(array):
         print ('---------------------------',scriptFile)
         conn = getConnect('fircus_dkh')
         cur = conn.cursor()
-        file = open(scriptFile,'r',encoding="utf8")
-        # 控制暂停
-        # count = 0
-        for line in file.read().split(';'):
-            # count += 1
+        result = preHandle(scriptFile)
+        logger.info('%s exec start ...' % scriptFile)
+        for line in result.split(';'):
             if len(line.strip()) != 0:
                 try:
-                    logger.info('%s exec start ...' % scriptFile)
+                    # print(line,'+++')
                     cur.execute(line)
                     conn.commit()
-                    logger.info('%s exec finish !' % scriptFile)
-                # result = cur.fetchall()
-                # print(result)
-                # print ('计数器当前值',count)
-                # if count == 10000:
-                #     time.sleep(10)
-                #     count = 0
-                # except cx_Oracle.IntegrityError as e:
-                #     logger.error ('%s SQL执行异常,原因如下：'%scriptFile)
-                #     logger.exception(e)
-                #     sys.exit()
                 except :
                     logger.error('%s SQL执行异常,原因如下：' % scriptFile)
                     logger.exception(sys.exc_info())
                     sys.exit()
+        logger.info('%s exec finish !' % scriptFile)
         cur.close()
         conn.close()
-        file.close()
 
 #并发数控制2`
 def poolExecProgram(fileDir, fileExt, channel):
@@ -152,6 +140,7 @@ def getCronList(conf_string):
 
 if __name__ == '__main__':
     scheduler = BlockingScheduler()
+    # 调用xml解析获取脚本位置信息
     config = parseCFGInfo('fircus_dkh',  'test0809.xml')
     for cronName in config.keys():
         fileExt = cronName
@@ -163,7 +152,7 @@ if __name__ == '__main__':
             print (fileDir, fileExt, channel,cronStr)
             #调用主程序
             def schedJob():
-                logger.info('任务入口，开始调用任务 ...')
+                logger.info('执行任务 ...')
                 #parallelExecProgram(fileDir, fileExt, channel)
                 poolExecProgram(fileDir, fileExt, channel)
                 # 打印当前时间

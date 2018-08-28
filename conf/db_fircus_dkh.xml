@@ -23,8 +23,8 @@ password - 密码
         <!--<port>***</port>-->
         <!--<sid>resdb</sid>-->
         <!--<serverName></serverName>-->
-        <!--<userName>BDTA_PD_DEV</userName>-->
-        <!--<passWord>BDTA_PD_DEV</passWord>-->
+        <!--<userName>*****</userName>-->
+        <!--<passWord>*****</passWord>-->
         <!--<enable>Ture</enable>-->
     <!--</db>-->
     <!--<db type="mysql">-->

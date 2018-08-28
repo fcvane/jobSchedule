@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # @Time    : 2018/8/2 15:57
 # @Author  : Fcvane
@@ -16,6 +16,8 @@ from DbConnect import getConnect
 from apscheduler.schedulers.blocking import BlockingScheduler
 from concurrent.futures import ThreadPoolExecutor
 from UtilPreHandle import preHandle
+from apscheduler.triggers.cron import CronTrigger
+
 
 LOG_PATH = UtilVariables.LOG_PATH
 currDate = datetime.datetime.now().strftime('%Y-%m-%d')
@@ -63,15 +65,34 @@ def execProgram(array):
     scriptFile = array[0]
     fileExt = array[1]
     if fileExt != 'sql':
-        if fileExt == 'py' :
-            #program = os.popen("which python").readline()[:-1]
-            program = "C:\Anaconda3\python"
-        elif fileExt == 'sh':
-            program = os.popen("which sh").readline()[:-1]
-            # python和shell执行
+        if fileExt == 'py':
+            program = os.popen("which python").readline()[:-1]
+            # program = "C:\Anaconda3\python"
+            # python执行
             logger.info(
                 "[%s] %s exec start ..." % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
             cmd = "{program} {scriptFile}".format(program=program, scriptFile=scriptFile)
+            errorMessage = '[%s]执行异常，请检查脚本文件' % scriptFile
+            execute(cmd, errorMessage)
+            logger.info(
+                "[%s] %s exec finished !" % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
+
+        elif fileExt == 'sh':
+            program = os.popen("which sh").readline()[:-1]
+            # shell执行
+            logger.info(
+                "[%s] %s exec start ..." % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
+            cmd = "{program} {scriptFile}".format(program=program, scriptFile=scriptFile)
+            errorMessage = '[%s]执行异常，请检查脚本文件' % scriptFile
+            execute(cmd, errorMessage)
+            logger.info(
+                "[%s] %s exec finished !" % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
+        elif fileExt == 'hive':
+            program = os.popen("which hive").readline()[:-1]
+            # hql执行
+            logger.info(
+                "[%s] %s exec start ..." % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
+            cmd = "{program} -hivevar v_date='20180828' -S -f {scriptFile}".format(program=program, scriptFile=scriptFile)
             errorMessage = '[%s]执行异常，请检查脚本文件' % scriptFile
             execute(cmd, errorMessage)
             logger.info(
@@ -158,9 +179,14 @@ if __name__ == '__main__':
 
             #获取时间
             cronDict = getCronList(conf_string=cronStr)
+            scheduler.add_job(schedJob, 'cron',second = '*')
+            trigger = CronTrigger(day_of_week=cronDict['week'], month=cronDict['month'], day=cronDict['day'],
+                                  hour=cronDict['hour'], minute=cronDict['minute'])
             print(cronDict['week'], cronDict['month'], cronDict['day'], cronDict['hour'], cronDict['minute'])
-            scheduler.add_job(schedJob, 'cron', day_of_week=cronDict['week'], month=cronDict['month'], day=cronDict['day'], hour=cronDict['hour'], minute=cronDict['minute'])
-            # scheduler.add_job(schedJob, 'cron',second = '*')
+            # scheduler.add_job(schedJob, 'cron', day_of_week=cronDict['week'], month=cronDict['month'], day=cronDict['day'], hour=cronDict['hour'], minute=cronDict['minute'])
+            # scheduler.add_job(schedJob, trigger)
+            trigger = CronTrigger(second='*')
+            scheduler.add_job(schedJob, trigger)
             print('Press Ctrl + C to exit')
             try:
                 # 采用的是阻塞的方式，只有一个线程专职做调度的任务

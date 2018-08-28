@@ -9,15 +9,15 @@ username - 用户
 password - 密码
 <-->
 <configuration>
-    <!--<db type="oracle">-->
-        <!--<host>10.45.28.209</host>-->
-        <!--<port>1521</port>-->
-        <!--<sid>orcl</sid>-->
-        <!--<serverName></serverName>-->
-        <!--<userName>ogg</userName>-->
-        <!--<passWord>ogg</passWord>-->
-        <!--<enable>Ture</enable>-->
-    <!--</db>-->
+    <db type="oracle">
+        <host>10.45.28.209</host>
+        <port>1521</port>
+        <sid>orcl</sid>
+        <serverName></serverName>
+        <userName>ogg</userName>
+        <passWord>ogg</passWord>
+        <enable>Ture</enable>
+    </db>
     <!--<db type="oracle">-->
         <!--<host>47.98.38.98</host>-->
         <!--<port>***</port>-->

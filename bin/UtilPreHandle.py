@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # @Time    : 2018/8/14 18:56
 # @Author  : Fcvane

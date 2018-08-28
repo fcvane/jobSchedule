@@ -12,7 +12,7 @@ import sys
 
 result = {}
 try:
-    tree = etree.parse('C:/ztesoft/python3/jobSchedule/conf/fircus_dkh/test0809.xml')
+    tree = etree.parse('C:/ztesoft/python3/jobSchedule/conf/fircus_dkh/job_config.xml')
     # 获得子元素
     elemlist = tree.findall('task')
     # 遍历task所有子元素

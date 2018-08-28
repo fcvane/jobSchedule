@@ -58,8 +58,8 @@ def parseCFGInfo(program,taskName):
             # print (array,"-----",result)
         logger.info('%s parse finished !.' % (PROGRAM_PATH + os.sep + taskName))
     except Exception as e:  # 捕获除与程序退出sys.exit()相关之外的所有异常
-        logger.error('parse test.xml fail!')
-        print('parse test.xml fail!')
+        logger.error('parse test.xml fail !!.')
+        print('parse test.xml fail !!.')
         sys.exit()
     #print(result)
     return result
@@ -99,14 +99,14 @@ def dbCFGInfo(program):
             # print (array,"-----",result)
         logger.info('%sparse finished !.' % (taskName))
     except Exception as e:  # 捕获除与程序退出sys.exit()相关之外的所有异常
-        logger.error('parse test.xml fail!')
-        print('parse test.xml fail!')
+        logger.error('parse test.xml fail !!.')
+        print('parse test.xml fail !!.')
         sys.exit()
     # print(result)
     return result
 
 if __name__ == '__main__':
-    # programConfig = parseCFGInfo('fircus_dkh',  'test0809.xml')
+    # programConfig = parseCFGInfo('fircus_dkh',  'job_config.xml')
     # print (programConfig)
     dbConfig = dbCFGInfo('fircus_dkh')
     print(dbConfig)

@@ -18,15 +18,15 @@ password - 密码
         <!--<passWord>ogg</passWord>-->
         <!--<enable>Ture</enable>-->
     <!--</db>-->
-    <db type="oracle">
-        <host>47.98.38.98</host>
-        <port>9999</port>
-        <sid>resdb</sid>
-        <serverName></serverName>
-        <userName>BDTA_PD_DEV</userName>
-        <passWord>BDTA_PD_DEV</passWord>
-        <enable>Ture</enable>
-    </db>
+    <!--<db type="oracle">-->
+        <!--<host>47.98.38.98</host>-->
+        <!--<port>***</port>-->
+        <!--<sid>resdb</sid>-->
+        <!--<serverName></serverName>-->
+        <!--<userName>BDTA_PD_DEV</userName>-->
+        <!--<passWord>BDTA_PD_DEV</passWord>-->
+        <!--<enable>Ture</enable>-->
+    <!--</db>-->
     <!--<db type="mysql">-->
         <!--<host>127.0.0.1</host>-->
         <!--<port>3306</port>-->

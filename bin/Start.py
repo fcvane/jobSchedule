@@ -66,8 +66,8 @@ def execProgram(array):
         if fileExt == 'py' :
             #program = os.popen("which python").readline()[:-1]
             program = "C:\Anaconda3\python"
-        # elif fileExt == 'sh':
-        #     program = os.popen("which sh").readline()[:-1]
+        elif fileExt == 'sh':
+            program = os.popen("which sh").readline()[:-1]
             # python和shell执行
             logger.info(
                 "[%s] %s exec start ..." % (scriptFile, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')))
@@ -138,7 +138,7 @@ def getCronList(conf_string):
 if __name__ == '__main__':
     scheduler = BlockingScheduler()
     # 调用xml解析获取脚本位置信息
-    config = parseCFGInfo('fircus_dkh',  'test0809.xml')
+    config = parseCFGInfo('fircus_dkh',  'job_config.xml')
     for cronName in config.keys():
         fileExt = cronName
         cronConfig = config[cronName]
@@ -150,7 +150,7 @@ if __name__ == '__main__':
             #调用主程序
             def schedJob():
                 logger.info('执行任务 ...')
-                #parallelExecProgram(fileDir, fileExt, channel)
+                print(fileDir, fileExt, channel)
                 nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 poolExecProgram(fileDir, fileExt, channel)
                 # 打印当前时间

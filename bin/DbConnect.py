@@ -56,27 +56,27 @@ def getConnect(program):
             try:
                 if dbType == 'oracle':
                     if sid is None or sid == '':
-                        logger.error ('sid not exists , the %s config is error !'%program)
+                        logger.error ('sid not exists , the %s config is error !!.'%program)
                         sys.exit()
                     else:
                         logger.info('exec connect oracle start ...')
                         connect = cx_Oracle.connect(userName, passWord,
                                                     '{host}:{port}/{sid}'.format(host = host, port = port , sid = sid))
-                        logger.info('connect oracle sucessful !')
+                        logger.info('connect oracle sucessful !.')
                 elif dbType == 'mysql':
                     if serverName is None or sid == '':
-                        logger.error('serverName not exists , the %s config is error !' % program)
+                        logger.error('serverName not exists , the %s config is error !!.' % program)
                         sys.exit()
                     else:
                         logger.info('exec connect mysql start ...')
                         connect = pymysql.connect(host = host, port = int(port), user = userName, passwd = passWord, db= serverName, charset='utf8')
-                        logger.info('connect mysql sucessful !')
+                        logger.info('connect mysql sucessful !.')
                 elif dbType == 'postgresql':
                         logger.info('exec connect postgresql start ...')
                         connect = psycopg2.connect(database= serverName, user = userName, password = passWord, host = host, port = port)
-                        logger.info('connect postgresql sucessful !')
+                        logger.info('connect postgresql sucessful !.')
             except:
-                logger.error('connect to db error!')
+                logger.error('connect to db error !!.')
                 logger.exception()
             return connect
 #

@@ -87,7 +87,7 @@ def preHandle(r_filename):
     ee = []
     # 处理列表中重复出现的注释
     if len(s) != len (e):
-        logger.error('[%s] comments is not formal !' %r_filename)
+        logger.error('[%s] comments is not formal !!.' %r_filename)
         sys.exit()
     else:
         for k,v in enumerate(nor_array):

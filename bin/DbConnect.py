@@ -79,33 +79,33 @@ def getConnect(program):
                 logger.error('connect to db error !!.')
                 logger.exception()
             return connect
-#
-# #执行指定目录下的.sql文件
-# def execute_sql(conn, path):
-#     os.chdir(path)
-#     for each in os.listdir("."):
-#         count = 0   #读取行数
-#         sql = ""    #拼接的sql语句
-#         if "hisdatastock_replace.sql" in each:
-#             with open(each, "r", encoding="utf-8") as f:
-#                 for each_line in f.readlines():
-#                     # 过滤数据
-#                     if not each_line or each_line == "\n":
-#                         continue
-#                     # 读取2000行数据，拼接成sql
-#                     elif count < 20000:
-#                         sql += each_line
-#                         count += 1
-#                     # 读取达到2000行数据，进行提交，同时，初始化sql，count值
-#                     else:
-#                         cur.execute(sql)
-#                         conn.commit()
-#                         sql = each_line
-#                         count = 1
-#                 # 当读取完毕文件，不到2000行时，也需对拼接的sql 执行、提交
-#                 if sql:
-#                     cur.execute(sql)
-#                     conn.commit()
+
+#执行指定目录下的.sql文件
+def execute_sql(conn, path):
+    os.chdir(path)
+    for each in os.listdir("."):
+        count = 0   #读取行数
+        sql = ""    #拼接的sql语句
+        if "hisdatastock_replace.sql" in each:
+            with open(each, "r", encoding="utf-8") as f:
+                for each_line in f.readlines():
+                    # 过滤数据
+                    if not each_line or each_line == "\n":
+                        continue
+                    # 读取2000行数据，拼接成sql
+                    elif count < 20000:
+                        sql += each_line
+                        count += 1
+                    # 读取达到2000行数据，进行提交，同时，初始化sql，count值
+                    else:
+                        cur.execute(sql)
+                        conn.commit()
+                        sql = each_line
+                        count = 1
+                # 当读取完毕文件，不到2000行时，也需对拼接的sql 执行、提交
+                if sql:
+                    cur.execute(sql)
+                    conn.commit()
 
 if __name__ == '__main__':
     # conn = getConnect('fircus_dkh')
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
     conn = getConnect('fircus_dkh')
     cur = conn.cursor()
-    cur.execute("select 1+1 from dual")
+    cur.execute("select 1+1 from users123")
     cur.close()
     conn.commit()
     conn.close()
